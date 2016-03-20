@@ -10,8 +10,10 @@ class Node:
         return self.value
     def setNext(self, nextNode):
         self.next = nextNode
+    def setValue(self, value):
+        self.value = value
 
-class NodeMap:
+class linkedList:
     'Implements a singly-linked list.'
     def __init__(self):
         self.head = None # Head node is the first node
@@ -55,4 +57,28 @@ class NodeMap:
             counter += 1
             currNode = currNode.getNext()
         return counter
-
+    def getValues(self):            # Print out the contents of the linked list
+        values = []
+        currNode = self.head
+        while currNode is not None:
+            values.append(currNode.getValue())
+            currNode = currNode.getNext()
+        return values
+    def reverse(self):              # Reverse the linked list iteratively
+        oldNode = None
+        currNode = self.head
+        while currNode is not None:
+            nextNode = currNode.getNext()
+            currNode.setNext(oldNode)
+            oldNode = currNode
+            currNode = nextNode
+        self.head = oldNode
+    def reverse2(self, currNode, oldNode):  # Reverse the linked list recursively
+        if currNode is None:
+            # Base case where there is an empty list
+            self.head = oldNode
+            return
+        nextNode = currNode.getNext()
+        currNode.setNext(oldNode)
+        oldNode = currNode
+        return self.reverse2(nextNode, oldNode)
