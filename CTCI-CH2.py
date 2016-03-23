@@ -207,7 +207,30 @@ def forwardDigitAddition(list1, list2):
 # This code looks so ugly. ;_; Looking in CTCI, we can do everything for this question recursively which
 # would probably make it nicer. 
 
+# 2.6: Given a circular linked list, implement an algorithm which returns the node at the
+# beginning of the loop.
+# EX:
+#   Input: A -> B -> C -> D -> E -> C (the same C as earlier)
+#   Output: C
+def circularList(lst):
+    # The first thing we could do is keep a list of the nodes we've seen and if we go back to one,
+    # then that node must be the beginning of the circular loop. If we put this list of seen nodes
+    # in a hash table (or dictionary), then it only has O(1) lookup. 
+    seen = {}
+    currNode = lst.head
+    while currNode is not None:
+        if currNode in seen.keys():
+            return currNode
+        seen[currNode] = True
+        currNode = currNode.getNext()
+    return "Non-circular linked list."
 
+# Another solution uses the "runner" technique.
+# We'll use two "runners", one moving at 1 node at a time and the other moving at 2. Eventually
+# they will meet each other if there is a loop in the list (otherwise one will hit the end).
+# TODO
+
+# 2.7: Implement a function to check if a linked list is a palindrome. 
 
 
 

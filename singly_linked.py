@@ -13,7 +13,7 @@ class Node:
     def setValue(self, value):
         self.value = value
 
-class linkedList:
+class LinkedList:
     'Implements a singly-linked list.'
     def __init__(self):
         self.head = None # Head node is the first node
