@@ -118,40 +118,32 @@ def minTickets(travelDays):
 # That is, a subsequence [a1, a2, a3, ..., ak] where a1 > a2, a2 < a3, a3 > a4,
 # a1    a3    ...       or       a2    a4
 #    a2    a4                 a1    a3    ...
-def altSequence(nums):
-    if len(nums) < 2:
+def findSubsequence(nums):
+    if len(nums) < 2: 
         return nums
-    # Create a subsequence array. We'll put tuples in this of the form
-    # (index, up/down/either). This is the index of the number in the nums
-    # array and then a value of 1 (expect next number to be bigger), -1 (expect
-    # next number to be smaller) or 0 (can be either).
-    # Keep track of lastNum. This is the last number we added to the array.
-    subsequence = []
-    subsequence.append((nums[0], 0))
+  
+    # Make an array of the current subsequence and a value that keeps track of
+    # the expected relation to the last number.
+    # 1 -> next number should be higher, 0 -> either, -1 -> next number should
+    # be lower 
+    currSequence = [nums[0]]
+    relation = 0 	
     longest = []
-    
-    # Go through the list of numbers and for each one, check the last value of
-    # subsequence and see if the current number follows the expectation in the
-    # tuple. If yes, then append the index and update lastNum. If no, then
-    # see if the length of subsequence is longer than the length of the longest
-    # subsequence we've seen so far. If yes, then replace it. Unfortunately,
-    # this means we have to keep track of two lists, giving us O(2n) space.
     for i in range(1, len(nums)):
-        expectation = subsequence[len(subsequence) - 1]
-        if nums[i] > expectation[0] and expectation[1] == 1:
-            subsequence.append((nums[i], -1))
-        elif nums[i] < expectation[0] and expectation[1] == -1:
-            subsequence.append((nums[i], 1))
-        elif expectation[1] == 0:
-            if nums[i] > expectation[0]:
-                subsequence.append((nums[i], -1))
-            else:
-                subsequence.append((nums[i], 1))
-        else:
-            if len(subsequence) > len(longest):
-                longest = subsequence
-            subsequence = [(nums[i], 0)]
-    if len(subsequence) > len(longest):
-        longest = subsequence
-    subsequence = [x[0] for x in longest]
-    return subsequence
+        if (relation == 1 and nums[i] > currSequence[-1]) or (relation == -1 and nums[i] < currSequence[-1]):
+            currSequence.append(nums[i])
+            relation *= -1
+        elif relation == 0:
+            if nums[i] > currSequence[-1]:
+                relation = -1
+            elif nums[i] < currSequence[-1]:
+                relation = 1
+            currSequence.append(nums[i])
+        else: 
+          if len(currSequence) > len(longest):
+            longest = currSequence
+            currSequence = [nums[i]]
+            relation = 0
+    if len(longest) > len(currSequence):
+        return longest
+    return currSequence
