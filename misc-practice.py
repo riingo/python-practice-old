@@ -113,3 +113,45 @@ def minTickets(travelDays):
     # The best thing I came up with was making another list, discardedDays, and
     # recursively calling this function on it in case there was another sequence
     # of consecutive days in it. This makes the runtime O(n^2) though, I think.
+
+# 4. Given an array of numbers, find the longest alternating subsequence.
+# That is, a subsequence [a1, a2, a3, ..., ak] where a1 > a2, a2 < a3, a3 > a4,
+# a1    a3    ...       or       a2    a4
+#    a2    a4                 a1    a3    ...
+def altSequence(nums):
+    if len(nums) < 2:
+        return nums
+    # Create a subsequence array. We'll put tuples in this of the form
+    # (index, up/down/either). This is the index of the number in the nums
+    # array and then a value of 1 (expect next number to be bigger), -1 (expect
+    # next number to be smaller) or 0 (can be either).
+    # Keep track of lastNum. This is the last number we added to the array.
+    subsequence = []
+    subsequence.append((nums[0], 0))
+    longest = []
+    
+    # Go through the list of numbers and for each one, check the last value of
+    # subsequence and see if the current number follows the expectation in the
+    # tuple. If yes, then append the index and update lastNum. If no, then
+    # see if the length of subsequence is longer than the length of the longest
+    # subsequence we've seen so far. If yes, then replace it. Unfortunately,
+    # this means we have to keep track of two lists, giving us O(2n) space.
+    for i in range(1, len(nums)):
+        expectation = subsequence[len(subsequence) - 1]
+        if nums[i] > expectation[0] and expectation[1] == 1:
+            subsequence.append((nums[i], -1))
+        elif nums[i] < expectation[0] and expectation[1] == -1:
+            subsequence.append((nums[i], 1))
+        elif expectation[1] == 0:
+            if nums[i] > expectation[0]:
+                subsequence.append((nums[i], -1))
+            else:
+                subsequence.append((nums[i], 1))
+        else:
+            if len(subsequence) > len(longest):
+                longest = subsequence
+            subsequence = [(nums[i], 0)]
+    if len(subsequence) > len(longest):
+        longest = subsequence
+    subsequence = [x[0] for x in longest]
+    return subsequence
