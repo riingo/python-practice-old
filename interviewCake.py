@@ -92,3 +92,32 @@ def highest_product(integerList):
 # highest_product([0, 0, 0])                # 0
 # highest_product([1, 10, -20, 3])          # 30
 # highest_product([5, 5, 3, 5])             # 125
+
+
+
+
+
+
+# 43. Merge two sorted arrays into one sorted array.
+# This assumes that if we have duplicates, we only want to count one. This is
+# the merge part of mergesort!
+
+def mergeSortedArrays(arr1, arr2):
+    returnArray = []
+    while len(arr1) > 0 and len(arr2) > 0:
+        if arr1[0] > arr2[0]:
+            minimum = arr2[0]
+            del arr2[0]
+        elif arr1[0] < arr2[0]:
+            minimum = arr1[0]
+            del arr1[0]
+        else:
+            minimum = arr1[0]
+            del arr1[0]
+            del arr2[0]
+        returnArray.append(minimum)
+    if len(arr1) > 0:
+        returnArray += arr1
+    elif len(arr2) > 0:
+        returnArray += arr2
+    return returnArray

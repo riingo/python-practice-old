@@ -39,11 +39,11 @@ def partition(array, start, end, pivot_ind):
 
 def quicksort(array, start=0, end=None):
     # start and end are the indices of the first and last elements to be sorted
-    if len(array) == 0 or len(array) == 1:  # Empty or single element array
+    if len(array) <= 1:  # Empty or single element array
         return
-    if end is None:                         # Get index of last element if not given
+    if end is None:             # Get index of last element if not given
         end = len(array) - 1
-    if end - start < 1:                     # Starting index is greater than ending index
+    if end - start < 1:         # Starting index is greater than ending index
         return
     
     # We will randomly choose a pivot point. (This reduces the chance
