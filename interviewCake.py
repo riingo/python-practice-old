@@ -96,7 +96,72 @@ def highest_product(integerList):
 
 
 
+# 7. Write a class TempTracker with the following methods.
+#       1. insert() - record a new temperature
+#       2. get_max() - return highest temp so far
+#       3. get_min() - return lowest temp so far
+#       4. get_mean() - return mean of all temps so far (float)
+#       5. get_mode() - return mode of all temps so far (return any if more than one)
+# Optimize for space and time. Favor speeding up the getter functions over speeding
+# up the insertion. 
+# Temperatures will be integers between 0 and 110. 
+class TempTracker:
+    def __init__(self):
+        self.temperatures = [0] * 111    # List representing each possible temp
+        self.modalTemp = None   # Mode so far
+        self.maxTemp = 0        # Max temp seen so far
+        self.minTemp = 0        # Min temp seen so far 
+        self.sumTemps = 0       # Sum of all temps so far
+        self.numTemps = 0       # Number of temperstaures we've seen so far
+    def insert(self, newTemp):
+        if self.modalTemp is None:
+            self.modalTemp = (1, newTemp)
+        self.temperatures[newTemp] += 1
+        if self.temperatures[newTemp] > self.modalTemp[0]:
+            self.modalTemp = (self.temperatures[newTemp], newTemp)
 
+        if self.maxTemp < newTemp:
+            self.maxTemp = newTemp
+        if self.minTemp > newTemp:
+            self.minTemp = newTemp
+
+        self.sumTemps += newTemp
+        self.numTemps += 1
+
+    def get_max(self):
+        return self.maxTemp
+    def get_min(self):
+        return self.minTemp
+    def get_mean(self):
+        return float(self.sumTemps / self.numTemps)
+    def get_mode(self):
+        return self.modalTemp[1]
+    
+
+
+
+
+# 15. Write a function fib() that takes an integer n and returns the nth fibonacci
+# number. Assume the fibonacci series is 0-indexed and starts with 0. So:
+#   fib(0) -> 0
+#   fib(1) -> 1
+#   fib(2) -> 1
+#   fib(3) -> 2
+#   fib(4) -> 3 ...
+def fib(n, seenFibs={}):
+    # Let's do this recursively. A fibonacci number is the sum of the last two
+    # fibonacci numbers. To avoid redoing work we've already done, we should also
+    # do this with memoization.
+    if seenFibs.get(n):
+        return seenFibs[n]
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    else:
+        return seenFibs.setdefault(n, fib(n-1) + fib(n-2))
+    return
+    
 
 # 43. Merge two sorted arrays into one sorted array.
 # This assumes that if we have duplicates, we only want to count one. This is
